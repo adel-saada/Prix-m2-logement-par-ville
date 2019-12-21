@@ -138,10 +138,7 @@ function liste_sections_cadastres(){
 
 	if [ ! -f liste_section_${code_postal}.txt ]
 	then
-		cat ${nom_fichier} | jq '.resultats | .[] |
-											{"numero_plan","voie"} | 
-											select ("numero_plan" != null and "voie" != null)' | 
-											jq '@text' > liste_section_${code_postal}.txt
+		cat ${nom_fichier} | jq '.resultats | .[] |{"numero_plan","voie"} | select ("numero_plan" != null and "voie" != null)' | jq '@text' > liste_section_${code_postal}.txt
 
 		sed -i 's/\\/ /g' liste_section_${code_postal}.txt
 		sed -i 's/"/ /g' liste_section_${code_postal}.txt
@@ -176,10 +173,7 @@ function calcul_prix_m_carre(){
 		exit 1
 	fi
 	
-	cat ${nom_fichier} | jq '.resultats|.[]|
-										{"valeur_fonciere","surface_terrain","surface_relle_bati"}| 
-										select(."valeur_fonciere" > 0 and ."surface_terrain" > 0)|
-										.valeur_fonciere / .surface_terrain |floor ' > fichier_tmp
+	cat ${nom_fichier} | jq '.resultats|.[]|{"valeur_fonciere","surface_terrain","surface_relle_bati"}| select(."valeur_fonciere" > 0 and ."surface_terrain" > 0)|.valeur_fonciere / .surface_terrain |floor ' > fichier_tmp
 	
 	nombre_lignes=$( cat fichier_tmp | wc -l )
 	somme=$( awk '{total+=$1}END{print total}' fichier_tmp )
@@ -204,10 +198,7 @@ function calcul_prix_m_carre_prox_geographique(){
 		exit 1
 	fi
 
-	cat ${nom_fichier} | jq '.features |.[] | .properties |
-												{"valeur_fonciere","surface_terrain","surface_relle_bati"}|
-												select(."valeur_fonciere" > 0 and ."surface_terrain" > 0)|
-												.valeur_fonciere / .surface_terrain |floor ' > fichier_tmp
+	cat ${nom_fichier} | jq '.features |.[] | .properties |{"valeur_fonciere","surface_terrain","surface_relle_bati"}| select(."valeur_fonciere" > 0 and ."surface_terrain" > 0)| .valeur_fonciere / .surface_terrain |floor ' > fichier_tmp
 
 	nombre_lignes=$( cat fichier_tmp | wc -l )
 	somme=$( awk '{total+=$1}END{print total}' fichier_tmp )
