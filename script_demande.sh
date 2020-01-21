@@ -30,7 +30,7 @@ neutre='\e[0;m'
 # paramètre 1 : type_de_recherche [ "commune" | "section" |  "distance"]
 # paramètre 2 : valeur_de_recherche [ ex : "59650" | "89304000ZB" | "48.85" (latitude) ]
 # [OPTIONEL] paramètre 3 : valeur_de_recherche [ "longitude" ]
-function telechargement_fichier(){
+function telechargement_fichier {
 
 	if [ $# -lt 2 ]
 	then
@@ -69,7 +69,7 @@ function telechargement_fichier(){
 } 
 
 # Objectif : recherche et télécharge le fichier json selon le code postal et le type de logement ["Appartement" ou "Maison"]
-function recherche_code_postal_deux_parametres(){
+function recherche_code_postal_deux_parametres {
 	read -p "Saisir le code postal : " code_postal	
 	while [ "${#code_postal}" -ne 5 ]
 	do
@@ -89,7 +89,7 @@ function recherche_code_postal_deux_parametres(){
 	esac
 }
 
-function recherche_code_postal(){
+function recherche_code_postal {
 	read -p "Saisir le code postal : " code_postal	
 	while [ "${#code_postal}" -ne 5 ]
 	do
@@ -105,7 +105,7 @@ function recherche_code_postal(){
 	fi
 }
 
-function recherche_section(){ 
+function recherche_section { 
 	read -p "Saisir la section : " num_section
 	while [ "${#num_section}" -ne 10 ]
 	do
@@ -121,7 +121,7 @@ function recherche_section(){
 	fi
 }
 
-function recherche_distance(){
+function recherche_distance {
 	read -p "Saisir la latitude : " latitude
 	read -p "Saisir la longitude : " longitude
 	if [ ! -e "./lat${latitude}lon${longitude}-data.json" ] ; then
@@ -133,7 +133,7 @@ function recherche_distance(){
 }
 
 # Récupère et affiche la liste des cadastres selon le code postal
-function liste_sections_cadastres(){
+function liste_sections_cadastres {
 	recherche_code_postal
 
 	if [ ! -f liste_section_${code_postal}.txt ]
@@ -157,7 +157,7 @@ function liste_sections_cadastres(){
 }
 
 # Objectif : retourne le nombre de résultats d'un fichier json
-function nombre_resultats(){
+function nombre_resultats {
 	nb_resultats=$(cat ${nom_fichier} | jq '.nb_resultats')
 	if  [ ${nb_resultats} -eq 0 ] 
 	then
@@ -167,7 +167,7 @@ function nombre_resultats(){
 	fi
 }
 
-function calcul_prix_m_carre(){
+function calcul_prix_m_carre {
 		
 	if [ $(nombre_resultats) == 0 ]
 	then	
@@ -193,7 +193,7 @@ function calcul_prix_m_carre(){
 	# sudo rm fichier_tmp
 }
 
-function calcul_prix_m_carre_prox_geographique(){
+function calcul_prix_m_carre_prox_geographique {
 
 	nb_resultats=$(cat ${nom_fichier} | jq '.features') 
 
@@ -220,7 +220,7 @@ function calcul_prix_m_carre_prox_geographique(){
 
 }
 
-function menu_recherche() {
+function menu_recherche  {
 
 	echo -e ${orange} ""
 	echo "          ######  #     # #######"
@@ -242,7 +242,7 @@ function menu_recherche() {
 	read choix
 }
 
-function menu_code_postal() {
+function menu_code_postal  {
 
 	echo -e ${orange}"Type de logement concerné : "
 	echo "---------------------------------------------"
@@ -256,7 +256,7 @@ function menu_code_postal() {
 	read choix_menu_code_postal
 }
 
-function menu_section() {
+function menu_section {
 	echo -e ${orange}"Menu"
 	echo "---------------------------------------------"
 	echo "1 - Saisir section cadastrale"
@@ -269,7 +269,7 @@ function menu_section() {
 }
 
 
-function menu_principal() {
+function menu_principal {
 	continuation=0
 	while [  ${continuation} -eq 0 ]
 	do
